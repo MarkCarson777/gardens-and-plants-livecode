@@ -1,9 +1,6 @@
-# this is just a little condition that will destroy all of our gardens
-# if the rails app is in a development environment before reseeding with the data below.
-Garden.destroy_all if Rails.env.development?
+# Gardens
 
-# first we will want our seed to build us some gardens which we can save to a variable
-# to reference when we create our plants after
+Garden.destroy_all if Rails.env.development?
 
 versaille = Garden.create!(
   name: "Gardens of Versaille",
@@ -15,7 +12,7 @@ new_york = Garden.create!(
   banner_url: "https://imageio.forbes.com/blogs-images/micheleherrmann/files/2019/02/NYBGTheOrchidShowSingapore-Arches-MCOB0807-1200x800.jpg?format=jpg&width=1200"
 )
 
-# Now let's create some plants
+# Plants
 
 Plant.create!(
   name: "Virginia Bluebell",
