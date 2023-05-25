@@ -1,4 +1,4 @@
-GARDENS AND PLANTS PART 2
+** Adding tags to Gardens and Plants**
 
 1. Set root page of app to the gardens#index in routes.rb
 
@@ -66,7 +66,7 @@ test 'invalid without name' do
 end
 
 
-10. Run the test again
+10. Run the test again - it should fail
 
 rails test:models
 
@@ -195,16 +195,19 @@ end
 26. We can now select multiple tags at once
 
 
-27. Improve UI (user interface) by installing some javascript packages
+** Use Tom Select to improve UI**
+
+
+27. Improve UI (user interface) by installing some JavaScript packages
 
 yarn add tom-select
 
-Then launch the webpack server
+Then launch the Webpack server
 
 yarn build --watch
 
 
-28. Create a stimulus controller to handle the javascript package
+28. Create a stimulus controller to handle the JavaScript package
 
 rails g stimulus tom_select
 
@@ -233,3 +236,41 @@ export default class extends Controller {
   input_html: {multiple: true, data: {controller: "tom-select"}},
   include_hidden: false
 %>
+
+
+**Display Button**
+
+
+32. Add a button in garden's show
+
+<button class="btn btn-secondary display-form">Add a plant</button>
+
+
+33. Generate a dedicated Stimulus controller for the form in the show page
+
+rails g stimulus form
+
+
+34. Make the controller display the form and remove the button on the click of the new button
+
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["button", "form"]
+
+  display() {
+    this.formTarget.classList.remove("d-none")
+    this.buttonTarget.classList.add("d-none")
+  }
+}
+
+35. Add data-controller, data-target and data-action attributes to the show page
+
+<div class="col-4" data-controller="form">
+  <button class="btn btn-secondary" data-form-target="button" data-action="click->form#display">Add a plant</button>
+  <%= simple_form_for [@garden, @plant], html: {class: "d-none", data: {form_target: "form"}} do |f| %>
+    <%= f.input :name, placeholder: "Palm tree" %>
+    <%= f.input :image_url, placeholder: "https://some_nice_image_found_on_google.jpg" %>
+    <%= f.submit "Add", class: "btn btn-primary" %>
+  <% end %>
+</div>

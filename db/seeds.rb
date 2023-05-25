@@ -1,4 +1,4 @@
-# Gardens
+Gardens
 
 Garden.destroy_all if Rails.env.development?
 
